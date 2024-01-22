@@ -53,7 +53,7 @@ LDFLAGS =
 LIBS =
 
 # get library version from meta file
-LIBRARY_VERSION = $(shell sed -n 's|^\#X text [0-9][0-9]* [0-9][0-9]* VERSION \(.*\);|\1|p' $(LIBRARY_NAME)-meta.pd)
+#LIBRARY_VERSION = $(shell sed -n 's|^\#X text [0-9][0-9]* [0-9][0-9]* VERSION \(.*\);|\1|p' $(LIBRARY_NAME)-meta.pd)
 
 ALL_CFLAGS += -DPD -DVERSION='"$(LIBRARY_VERSION)"'
 
@@ -276,8 +276,8 @@ install: libdir_install
 # actually there.  Those files are not optional, then need to be there.
 libdir_install: $(SOURCES:.c=.$(EXTENSION)) $(SHARED_LIB) install-doc install-examples install-manual install-unittests
 	$(INSTALL_DIR) $(DESTDIR)$(objectsdir)/$(LIBRARY_NAME)
-	$(INSTALL_DATA) $(LIBRARY_NAME)-meta.pd \
-		$(DESTDIR)$(objectsdir)/$(LIBRARY_NAME)
+	#$(LIBRARY_NAME)-meta.pd
+	#$(INSTALL_DATA) $(DESTDIR)$(objectsdir)/$(LIBRARY_NAME)
 	test -z "$(strip $(SOURCES))" || (\
 		$(INSTALL_PROGRAM) $(SOURCES:.c=.$(EXTENSION)) $(DESTDIR)$(objectsdir)/$(LIBRARY_NAME) && \
 		$(STRIP) $(addprefix $(DESTDIR)$(objectsdir)/$(LIBRARY_NAME)/,$(SOURCES:.c=.$(EXTENSION))))
@@ -349,7 +349,7 @@ $(DISTBINDIR):
 	$(INSTALL_DIR) $(DISTBINDIR)
 
 libdir: all $(DISTBINDIR)
-	$(INSTALL_DATA) $(LIBRARY_NAME)-meta.pd  $(DISTBINDIR)
+	$(INSTALL_DATA) $(DISTBINDIR) #$(LIBRARY_NAME)-meta.pd
 	$(INSTALL_DATA) $(SOURCES) $(SHARED_SOURCE) $(SHARED_HEADER) $(DISTBINDIR)
 	$(INSTALL_DATA) $(HELPPATCHES) $(DISTBINDIR)
 	test -z "$(strip $(EXTRA_DIST))" || \
@@ -366,7 +366,7 @@ dist: $(DISTDIR)
 	$(INSTALL_DATA) Makefile  $(DISTDIR)
 	$(INSTALL_DATA) README.txt $(DISTDIR)
 	$(INSTALL_DATA) LICENSE.txt $(DISTDIR)
-	$(INSTALL_DATA) $(LIBRARY_NAME)-meta.pd  $(DISTDIR)
+	$(INSTALL_DATA) $(DISTDIR) #$(LIBRARY_NAME)-meta.pd
 	test -z "$(strip $(ALLSOURCES))" || \
 		$(INSTALL_DATA) $(ALLSOURCES)  $(DISTDIR)
 	test -z "$(strip $(wildcard $(ALLSOURCES:.c=.tcl)))" || \
